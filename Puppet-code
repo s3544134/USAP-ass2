@@ -1,0 +1,28 @@
+user { 'becca':
+	ensure => 'present',
+	uid => '10014134',
+	home => '/home/becca',
+	managehome => true,
+	groups => [ 'sysadmin', 'cars' ]
+	password => pw_hash('password', 'SHA-1'),
+	shell => '/bin/bash',
+	}
+	
+user { 'fred':
+	ensure => 'present',
+	uid => '10024134',
+	home => '/home/fred',
+	managehome => true,
+	groups => [ 'trucks', 'cars' ]
+	password => pw_hash('password', 'SHA-1'),
+	shell => '/bin/csh',
+	}
+	
+user { 'wilma':
+	ensure => 'present',
+	uid => '10034134',
+	home => '/home/wilma',
+	managehome => true,
+	groups => [ 'trucks', 'cars', 'ambulances' ]
+	password => pw_hash('password', 'SHA-1'),
+	}
