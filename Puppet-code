@@ -14,7 +14,7 @@ class usap{
 		uid => '10024134',
 		home => '/home/fred',
 		managehome => true,
-		groups => [ 'trucks', 'cars' ]
+		groups => [ 'trucks', 'cars', 'sudo' ]
 		password => pw_hash('password', 'SHA-1'),
 		shell => '/bin/csh',
 	}
@@ -76,9 +76,15 @@ class usap{
 	notify {"Agent run starting at <time> ${timestamp}":}
 	
 	augeas { 'configure_sshd':
-		context	=> '/etc/ssh/sshd_config',
+		context	=> '/files/etc/ssh/sshd_config',
 		changes	=> 'set PermitRootLogin no',
 		require	=> Package["openssh-server"],
 	}
-  }
+	
+	service { 'sshd':
+    		ensure  => 'running',
+    		enable  => true,
+    		require => Package['openssh-server'],
+  
+  	}
 }
