@@ -71,5 +71,8 @@ class usap{
 		ip => 'saturn.csit.rmit.edu.au',
 		host_aliases => 'saturn',
 	}
+	
+	$timestamp = generate('/bin/date', '+%H:%M:%S')
+	notify {"Agent run starting at <time> ${timestamp}":}
   }
 }
