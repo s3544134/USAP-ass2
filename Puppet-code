@@ -74,5 +74,11 @@ class usap{
 	
 	$timestamp = generate('/bin/date', '+%H:%M:%S')
 	notify {"Agent run starting at <time> ${timestamp}":}
+	
+	augeas { 'configure_sshd':
+		context	=> '/etc/ssh/sshd_config',
+		changes	=> 'set PermitRootLogin no',
+		require	=> Package["openssh-server"],
+	}
   }
 }
