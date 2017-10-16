@@ -40,12 +40,36 @@ class usap{
 		ensure => 'present',
 		}
 		
-	$pkgs = [ 'openssh', 'httpd', 'mysql-server', 'mysql-client', 'vncserver', 'tmux', 'dia2code', 'lynx', 'gcc',
+	$pkgs = [ 'openssh', 'mysql-server', 'mysql-client', 'vncserver', 'tmux', 'dia2code', 'lynx', 'gcc',
 	'gdb', 'cgdb', 'vim', 'emacs', 'sshfs' }
+	
+	$apache_server = $::operatingsystem ? {
+    		Fedora  => 'httpd',
+    		default => 'apache2',
+  	}
+
+ 	package { $apache_server:
+    		ensure => 'present',
+    		alias  => 'apache_server',
+  	}
 	
 	package { $pkgs: 
 		ensure => 'present' 
 	}
 	
+	host { 'titan.csit.rmit.edu.au':
+		ip => 'titan.csit.rmit.edu.au',
+		host_aliases => 'titan',
+	}
 	
+	host { 'jupiter.csit.rmit.edu.au':
+		ip => 'jupiter.csit.rmit.edu.au',
+		host_aliases => 'jupiter',
+	}
+	
+	host { 'saturn.csit.rmit.edu.au':
+		ip => 'saturn.csit.rmit.edu.au',
+		host_aliases => 'saturn',
+	}
+  }
 }
