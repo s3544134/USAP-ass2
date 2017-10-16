@@ -1,4 +1,6 @@
 class usap{
+	
+	#create Users
 	user { 'becca':
 		ensure => 'present',
 		uid => '10014134',
@@ -28,6 +30,8 @@ class usap{
 		password => pw_hash('password', 'SHA-1'),
 	}
 	
+	#create Groups
+	
 	group { 'sysadmin':
 		ensure => 'present',
 		}
@@ -40,14 +44,17 @@ class usap{
 		ensure => 'present',
 		}
 		
+	#create package array
 	$pkgs = [ 'openssh', 'mysql-server', 'mysql-client', 'vncserver', 'tmux', 'dia2code', 'lynx', 'gcc',
 	'gdb', 'cgdb', 'vim', 'emacs', 'sshfs' }
 	
+	#for different operating systems
 	$apache_server = $::operatingsystem ? {
     		Fedora  => 'httpd',
     		default => 'apache2',
   	}
-
+	
+	#install packages
  	package { $apache_server:
     		ensure => 'present',
     		alias  => 'apache_server',
@@ -57,6 +64,7 @@ class usap{
 		ensure => 'present' 
 	}
 	
+	#edit host files with csit servers
 	host { 'titan.csit.rmit.edu.au':
 		ip => 'titan.csit.rmit.edu.au',
 		host_aliases => 'titan',
@@ -72,19 +80,40 @@ class usap{
 		host_aliases => 'saturn',
 	}
 	
+	#client message on puppet run and retive timestamp
 	$timestamp = generate('/bin/date', '+%H:%M:%S')
-	notify {"Agent run starting at <time> ${timestamp}":}
+	notify {"Agent run starting at ${timestamp}":}
 	
+	#edit configuation files
 	augeas { 'configure_sshd':
 		context	=> '/files/etc/ssh/sshd_config',
 		changes	=> 'set PermitRootLogin no',
-		require	=> Package["openssh-server"],
+		require	=> Package['openssh-server'],
 	}
+	
 	
 	service { 'sshd':
     		ensure  => 'running',
     		enable  => true,
     		require => Package['openssh-server'],
-  
   	}
+	
+	file { '/var/www/s3544134/':
+   		ensure => 'directory',
+		owner => 'root',
+    		group => 'root',
+  	}
+	
+	augeas { 'configure_sshd':
+		context	=> '/files/etc/ssh/sshd_config',
+		changes	=> 'set DocumentRoot /var/www/s3544134',
+		require	=> Package[$apache_server],
+	}
+	
+	#set path /usr/local/bin
+	file { '/etc/profile.d/set-user-bin.sh' :
+    		owner   => 'root',
+    		mode    => '0644',
+   		content => 'PATH=$PATH:/usr/local/bin',
+ 	 }
 }
