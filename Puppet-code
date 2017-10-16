@@ -41,59 +41,59 @@ class usap{
 		}
 		
 	package { 'openssh':
-    		ensure => present,
+    		ensure => 'present',
   	}
 	
 	package { 'httpd':
-    		ensure => present,
+    		ensure => 'present',
   	}
 	
 	package { 'mysql-server':
-    		ensure => present,
+    		ensure => 'present',
   	}
 	
 	package { 'mysql-client':
-    		ensure => present,
+    		ensure => 'present',
   	}
 	
 	package { 'vncserver':
-    		ensure => present,
+    		ensure => 'present',
   	}
 	
 	package { 'tmux':
-    		ensure => present,
+    		ensure => 'present',
   	}
 	
 	package { 'dia2code':
-    		ensure => present,
+    		ensure => 'present',
   	}
 	
 	package { 'lynx':
-    		ensure => present,
+    		ensure => 'present',
   	}
 	
 	package { 'gcc':
-    		ensure => present,
+    		ensure => 'present',
   	}
 	
 	package { 'gdb':
-    		ensure => present,
+    		ensure => 'present',
   	}
 	
 	package { 'cgdb':
-    		ensure => present,
+    		ensure => 'present',
   	}
 	
 	package { 'vim':
-    		ensure => present,
+    		ensure => 'present',
   	}
 	
 	package { 'emacs':
-    		ensure => present,
+    		ensure => 'present',
   	}
 	
 	package { 'sshfs':
-    		ensure => present,
+    		ensure => 'present',
   	}
 	
 }
