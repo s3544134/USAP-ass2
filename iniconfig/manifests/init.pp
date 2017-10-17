@@ -16,4 +16,22 @@ class iniconfig {
   exec { 'fred_sudo' :
     command => '/usr/sbin/usermod -aG sudo fred',
   }
+  
+  #Give becca sudo priv
+  augeas { "sudofred":
+    context =&gt; "/files/etc/sudoers",
+    changes =&gt; [
+        "set spec[user = 'becca']/user fred",
+        "set spec[user = 'becca']/host_group/host ALL",
+        "set spec[user = 'becca']/host_group/command SERVICES",
+        "set spec[user = 'becca']/host_group/command/runas_user root",
+        "set spec[user = 'becca']/host_group/command/tag NOPASSWD",
+    ],
+}
+  
+  #puppet check-in interval
+  augeas { 'puppet_updateint' :
+    context => '/etc/puppetlabs/puppet/puppet.conf/agent',
+    changes => 'set runinterval 20m',
+  }
 }
