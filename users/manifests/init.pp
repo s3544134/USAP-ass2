@@ -36,7 +36,7 @@ class user
     purge_ssh_keys => true,
 	}
   
-  #set Wilma SSH key
+  #set SSH key
   -> ssh_authorized_key { 'wilmasKey' :
     ensure => present,
     user   => 'wilma',
