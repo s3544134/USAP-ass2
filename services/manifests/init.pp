@@ -26,4 +26,15 @@ class services
     enable    => true,
     subscribe => File['/etc/httpd/conf/httpd.conf'],
   }
+  
+  #mount sshfs
+   file { '/home/becca/titan':
+    ensure => 'directory',
+    owner  => 'becca',
+    mode   => '0644',
+  }
+  
+  exec { 'becca_sudo' :
+    command => '/usr/sbin/sshfs -o allow_other,defer_permissions s3544134@titan:~ ~/titan',
+  }
 }
